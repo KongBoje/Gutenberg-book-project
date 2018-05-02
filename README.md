@@ -10,7 +10,7 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 ### Database paradigms
 - MySQL/PostgreSQL
 - NoSQL (MongoDB)
-- Maybe Neo4j Graph-database
+- Neo4j Graph-database
 
 ### Help material
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/15-Advanced%20Neo4J.ipynb
