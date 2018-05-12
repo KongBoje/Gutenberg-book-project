@@ -5,12 +5,36 @@
  */
 package com.mycompany.gutenbergproject.connections;
 
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.GraphDatabase;
+import org.neo4j.driver.v1.Record;
+import org.neo4j.driver.v1.Session;
+import org.neo4j.driver.v1.StatementResult;
+
 /**
  *
  * @author Micha
  */
 public class Neo4jConnection {
     public static void main(String[] args) {
-        System.out.println("Cypher");
+        Driver driver = GraphDatabase.driver( 
+                "bolt://localhost:7687", 
+                AuthTokens.basic( "neo4j", "1234" ) );
+        Session session = driver.session();
+
+        // Run a query matching all nodes
+        StatementResult result = session.run( 
+                "MATCH (s:Book)" +
+                "RETURN s.title AS title, s.author AS author");
+        
+//        System.out.println("Title" + ", " + "Author");
+        while ( result.hasNext() ) {
+            Record record = result.next();
+            System.out.println( "Title: "+record.get("title").asString() + "\n" + 
+                                "Author: "+record.get("author").asString()+"\n");
+        }
+        session.close();
+        driver.close();
     }
 }
