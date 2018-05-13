@@ -26,9 +26,10 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 | --------------------|:--------------------------------:|:-----------------------------------:| ------------------------:|
 | 1                   | Check connection to the database | Get books Title and Author          | Name on title and Author |
 
-## Test strategy for BDD
+## Test strategy for BDD/TDD
 
 ### Test cases
-| Test case ID        | Test case objective              | Test case description               | Expected result |
-| --------------------|:--------------------------------:|:-----------------------------------:| ---------------:|
-| 1                   |                                  |                                     |                 |
+| Test case ID        | Test case objective              | Test case description               | Expected result      |
+| --------------------|:--------------------------------:|:-----------------------------------:| --------------------:|
+| 1                   | To test getMentioned()           | Get All mentioned Cities in a book  | citiesMentioned(int) |
+| 2                   | To test getBooksByName()         | Get All books with similar name     | books.size() = 2     |
