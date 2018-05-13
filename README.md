@@ -22,7 +22,13 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 ## Test strategy for TDD
 
 ### Test cases
+| Test case ID        | Test case objective              | Test case description               | Expected result |
+| --------------------|:--------------------------------:|:-----------------------------------:| ---------------:|
+| 1                   |                                  |                                     |                 |
 
 ## Test strategy for BDD
 
 ### Test cases
+| Test case ID        | Test case objective              | Test case description               | Expected result |
+| --------------------|:--------------------------------:|:-----------------------------------:| ---------------:|
+| 1                   |                                  |                                     |                 |
