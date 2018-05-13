@@ -29,7 +29,13 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 ## Test strategy for BDD/TDD
 
 ### Test cases
-| Test case ID        | Test case objective              | Test case description               | Expected result      |
-| --------------------|:--------------------------------:|:-----------------------------------:| --------------------:|
-| 1                   | To test getMentioned()           | Get All mentioned Cities in a book  | citiesMentioned(int) |
-| 2                   | To test getBooksByName()         | Get All books with similar name     | books.size() = 2     |
+| Test case ID        | Test case objective           | Test case description                 | Expected result        |
+| --------------------|:-----------------------------:|:-------------------------------------:| ----------------------:|
+| 1                   | Test getMentioned()           | Get All mentioned Cities in a book    | citiesMentioned(int)   |
+| 2                   | Test getBooksByName()         | Get All books with similar name       | books.size() = 2       |
+| 3                   | Test plotCities()             | Get coordinates of cities from list   | expected.equals(actual)|
+| 4                   | Test getNearbyCities()        | Get All books within a specified range| expected.equals(actual)|
+| 5                   | Test getAllBooks()            | Get All books with similar name       | books.size() == total  |
+
+### UI Test
+TBD
