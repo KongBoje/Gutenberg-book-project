@@ -16,3 +16,13 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/15-Advanced%20Neo4J.ipynb
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/Modeling%20Guidelines.pdf
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/Neo4j%20Performance.pdf
+
+---
+
+## Test strategy for TDD
+
+### Test cases
+
+## Test strategy for BDD
+
+### Test cases
