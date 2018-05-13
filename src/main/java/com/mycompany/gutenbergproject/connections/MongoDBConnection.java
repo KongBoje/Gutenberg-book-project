@@ -25,6 +25,12 @@ public class MongoDBConnection {
 
     private static MongoClient mongo;
 
+    public MongoDBConnection() {
+    }
+
+    
+    
+    
     public static void main(String[] args) {
         MongoClient myMongo = getMongoConnection();
 //      File[] files = getAllFiles();
