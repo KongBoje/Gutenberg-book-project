@@ -22,9 +22,9 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 ## Test strategy for TDD
 
 ### Test cases
-| Test case ID        | Test case objective              | Test case description               | Expected result |
-| --------------------|:--------------------------------:|:-----------------------------------:| ---------------:|
-| 1                   |                                  |                                     |                 |
+| Test case ID        | Test case objective              | Test case description               | Expected result          |
+| --------------------|:--------------------------------:|:-----------------------------------:| ------------------------:|
+| 1                   | Check connection to the database | Get books Title and Author          | Name on title and Author |
 
 ## Test strategy for BDD
 
