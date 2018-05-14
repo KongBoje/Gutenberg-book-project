@@ -27,29 +27,37 @@ public class databaseTDD {
         //Neo4jConnection; 
     }
 
-    //Match string with books and find equal or similar titles. 
+    
     @Test
-    public void getBooksByNameTest() {
-        
-    }
-    //Provide a list of all cities "supported"  
-    @Test
-    public void getAllCitiesTest() {
-        
-    }
-    //Get cities (or something else) within a specified range
-    @Test 
-    public void getNearbyCitiesTest(){
+    public void getAllBooks(){
     
     }
-    //Get all mentioned cities from a book. 
-    @Test
-    public void getMentionedCitiesTest(){
     
-    }
-    //Plot a list of city names on a map. 
-    @Test
-    public void plotCitiesTest(){
     
-    }
+    
+//    //Match string with books and find equal or similar titles. 
+//    @Test
+//    public void getBooksByNameTest() {
+//        
+//    }
+//    //Provide a list of all cities "supported"  
+//    @Test
+//    public void getAllCitiesTest() {
+//        
+//    }
+//    //Get cities (or something else) within a specified range
+//    @Test 
+//    public void getNearbyCitiesTest(){
+//    
+//    }
+//    //Get all mentioned cities from a book. 
+//    @Test
+//    public void getMentionedCitiesTest(){
+//    
+//    }
+//    //Plot a list of city names on a map. 
+//    @Test
+//    public void plotCitiesTest(){
+//    
+//    }
 }
