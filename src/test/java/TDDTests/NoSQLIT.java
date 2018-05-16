@@ -20,11 +20,11 @@ import org.junit.Test;
  *
  * @author Opinator
  */
-public class databaseTDD {
+public class NoSQLIT {
 
     private MongoClient mongo;
 
-    public databaseTDD() {
+    public NoSQLIT() {
     }
 
     @Before
@@ -63,15 +63,6 @@ public class databaseTDD {
         return db;
     }
 
-    @Test
-    public void getAllBooksSQL() {
-
-    }
-
-    @Test
-    public void getAllBooksGraph() {
-
-    }
 
 //    //Match string with books and find equal or similar titles. 
 //    @Test
@@ -97,5 +88,32 @@ public class databaseTDD {
 //    @Test
 //    public void plotCitiesTest(){
 //    
+//    }
+    
+    
+    // Måden jeg har tænkt mig
+    
+//    @Test
+//    @DisplayName("Returns all titles and authors from a book in a given city")
+//    public void getBooksFromCityIT(){
+////        mySQL test kode
+//    }
+//    
+//    @Test
+//    @DisplayName("Returns all cities mentioned in a books title and plots them onto a map")
+//    public void getCityFromBookTitleIT(){
+//        
+//    }
+//    
+//    @Test
+//    @DisplayName("Returns all books written by that author and plots mentioned cities in those books onto a map")
+//    public void getBooksByAuthorIT(){
+//        
+//    }
+//    
+//    @Test
+//    @DisplayName("Returns all books mentioning a city in vicinity of the given geolocation")
+//    public void getBooksByGeolocationIT(){
+//        
 //    }
 }
