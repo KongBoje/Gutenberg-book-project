@@ -6,37 +6,64 @@
 package TDDTests;
 
 import com.mycompany.gutenbergproject.connections.Neo4jConnection;
+import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.neo4j.driver.v1.Driver;
+import org.neo4j.driver.v1.Record;
+import org.neo4j.driver.v1.Session;
+import org.neo4j.driver.v1.StatementResult;
 
 /**
  *
  * @author Micha
  */
 public class Neo4jIT {
-    
+
+    @Test
+    @DisplayName("Test connection, by getting all books")
+    public void getAllBooks() {
+        Driver driver = Neo4jConnection.getConnection();
+        ArrayList<String> books = new ArrayList<>();
+        
+        Session session = driver.session();
+        String query = "MATCH (s:Book)" +
+                "RETURN s.title AS title";
+        
+        StatementResult result = session.run(query);
+        
+        while (result.hasNext()){
+            Record record = result.next();
+            books.add(record.get("title").asString());
+        }
+        assertEquals(books.size(), 10);
+        
+        session.close();
+        driver.close();
+    }
+
     @Test
     @DisplayName("Returns all titles and authors from a book in a given city")
-    public void getBooksFromCityIT(){
+    public void getBooksFromCityIT() {
         Driver driver = Neo4jConnection.getConnection();
     }
-    
+
     @Test
     @DisplayName("Returns all cities mentioned in a books title and plots them onto a map")
-    public void getCityFromBookTitleIT(){
-        
+    public void getCityFromBookTitleIT() {
+
     }
-    
+
     @Test
     @DisplayName("Returns all books written by that author and plots mentioned cities in those books onto a map")
-    public void getBooksByAuthorIT(){
-        
+    public void getBooksByAuthorIT() {
+
     }
-    
+
     @Test
     @DisplayName("Returns all books mentioning a city in vicinity of the given geolocation")
-    public void getBooksByGeolocationIT(){
-        
+    public void getBooksByGeolocationIT() {
+
     }
 }
