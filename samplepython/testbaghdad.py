@@ -25,7 +25,7 @@ def get_cities_in_book(booktitle):
 	cnx = mysql.connector.connect(user="root", password="root", database="gutenberg")
 	cursor = cnx.cursor()
 
-	query = "select * from book_city_relation_t INNER JOIN city_t ON book_city_relation_t.city_id = city_t.id where book_city_relation_t.book_id in (SELECT book_t.id FROM book_t WHERE book_t.title = ('%s'))" % (booktitle)
+	query = "SELECT * FROM book_city_relation_t INNER JOIN city_t ON book_city_relation_t.city_id = city_t.id WHERE book_city_relation_t.book_id in (SELECT book_t.id FROM book_t WHERE book_t.title = ('%s'))" % (booktitle)
 	cursor.execute(query)
 
 	for entry in cursor:
