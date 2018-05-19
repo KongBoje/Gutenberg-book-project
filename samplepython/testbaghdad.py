@@ -25,7 +25,7 @@ def get_cities_in_book(booktitle):
 	cnx = mysql.connector.connect(user="root", password="root", database="gutenberg")
 	cursor = cnx.cursor()
 
-	query = "SELECT * from book_city_relation_t INNER JOIN city_t ON book_city_relation_t.city_id = city_t.id WHERE book_city_relation_t.book_id IN (SELECT book_t.id FROM book_t WHERE book_t.title = ('%s'))" % (booktitle)
+	query = "SELECT * FROM book_city_relation_t INNER JOIN city_t ON book_city_relation_t.city_id = city_t.id WHERE book_city_relation_t.book_id IN (SELECT book_t.id FROM book_t WHERE book_t.title = ('%s'))" % (booktitle)
 	cursor.execute(query)
 
 	for entry in cursor:
@@ -57,7 +57,7 @@ def get_cities_mentioned_by_author(authorname):
 	
 	cnx.close()
 	
-def get_books_mentioning_citis_near(latitude, longtitude, leeway):
+def get_books_mentioning_cities_near(latitude, longtitude, leeway):
 	cnx = mysql.connector.connect(user="root", password="root", database="gutenberg")
 	cursor = cnx.cursor()
 
@@ -82,5 +82,5 @@ if __name__ == "__main__":
 	#get_books_mentioning_with_author("Rio de Janeiro")
 	#get_cities_in_book("I Married a Ranger")
 	#get_cities_mentioned_by_author("Orr, Lyndon")
-	get_books_mentioning_citis_near(31,65,1)
+	get_books_mentioning_cities_near(31,65,1)
 
