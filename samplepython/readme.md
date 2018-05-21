@@ -11,3 +11,5 @@ These are some sample results of various queries on the MariaDB database.
 |5.txt|The names of books, and their authors, that mention the city `Sar-e Pul`|
 |6.txt|The names of books, and their authors, that mention the city `Saint-Cloud`|
 |7.txt|The names of books, and their authors, that mention the city `Saint-Germain-en-Laye`|
+|8.txt|The names of books, and their authors, that mention the city `Santa Cruz de la Sierra`|
+
