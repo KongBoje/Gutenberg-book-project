@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Parsers;
-
+package queries;
 
 /**
  *
  * @author Micha
  */
-public class pythonParser {
-    // Python parser fil tilføjes under denne pakke i stedet for denne java klasse
+public class Neo4jQueries {
+    
 }
