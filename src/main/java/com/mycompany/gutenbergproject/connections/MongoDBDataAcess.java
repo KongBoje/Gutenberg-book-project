@@ -38,7 +38,7 @@ public class MongoDBDataAcess {
     public static void main(String[] args) {
         MongoDBDataAcess dbAcess= new MongoDBDataAcess();
         
-        ArrayList<Document> myBooks = getBooksMentioningNearbyCities(-74.0059731f, 40.7143528f, 1000);
+        ArrayList<Document> myBooks = getBooksMentioningNearbyCities(-74.0059731f, 40.7143528f, 10000);
         for (Document myBook : myBooks) {
             System.out.println("my book: " + myBook.getString("title"));
         }
@@ -137,8 +137,8 @@ public class MongoDBDataAcess {
         }
         MongoCollection<Document> coll3 = db.getCollection("books");
         BasicDBObject query3 = new BasicDBObject();
-        query2.put("id", new BasicDBObject("$in", nearbyBookIds));
-        FindIterable<Document> docs3 = coll3.find(query2);
+        query3.put("id", new BasicDBObject("$in", nearbyBookIds));
+        FindIterable<Document> docs3 = coll3.find(query3);
         for (Document doc : docs3) {
             nearbyBooks.add(doc);
         }
