@@ -13,13 +13,33 @@ public class City {
     
     private int id; 
     private String name; 
-    private float[] coordinates;
+    private float lat;
+    private float lon;
 
-    public City(int id, String name, float[] coordinates) {
+    public City(int id, String name, float lat, float lon) {
         this.id = id;
         this.name = name;
-        this.coordinates = coordinates;
+        this.lat = lat;
+        this.lon = lon;
     }
+
+    public float getLat() {
+        return lat;
+    }
+
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    public float getLon() {
+        return lon;
+    }
+
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+    
+   
 
     public int getId() {
         return id;
@@ -37,12 +57,5 @@ public class City {
         this.name = name;
     }
 
-    public float[] getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(float[] coordinates) {
-        this.coordinates = coordinates;
-    }
     
 }

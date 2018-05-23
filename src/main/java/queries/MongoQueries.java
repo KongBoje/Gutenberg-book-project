@@ -66,7 +66,7 @@ public class MongoQueries {
         MongoCollection<Document> coll2 = db.getCollection("cities");
         FindIterable<Document> docs2 = coll2.find(query2);
         for (Document doc : docs2) {
-            cities.add(new City(doc.getInteger("id"), doc.getString("name"), ));
+            cities.add(new City(doc.getInteger("id"), doc.getString("name") ));
         }
         return cities;
     }
