@@ -9,16 +9,13 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
-import static com.mongodb.client.model.Filters.near;
-import com.mongodb.client.model.geojson.Position;
-import java.awt.print.Book;
+import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import javafx.scene.effect.Light.Point;
 import org.bson.Document;
 
 /**
@@ -36,12 +33,16 @@ public class MongoDBDataAcess {
     }
 
     public static void main(String[] args) {
-        MongoDBDataAcess dbAcess= new MongoDBDataAcess();
-        
-        ArrayList<Document> myBooks = getBooksMentioningNearbyCities(-74.0059731f, 40.7143528f, 10000);
-        for (Document myBook : myBooks) {
-            System.out.println("my book: " + myBook.getString("title"));
-        }
+        MongoDBDataAcess dbAcess = new MongoDBDataAcess();
+
+        createTable2();
+
+//        ArrayList<Document> myBooks = getAuthorMentionedCities("Orr, Lyndon");
+//        for (Document doc : myBooks) {   
+//            String[] numbers = doc.toString().replaceAll( "[^0-9.,]", "" ).split(",");
+//            
+//            System.out.println("[" + doc.getString("name") + "," + numbers[5] + "," + numbers[4] + "]");
+//        }
         MongoDatabase db = mongo.getDatabase("tester5");
         MongoIterable collections = db.listCollectionNames();
         for (Object collection : collections) {
@@ -92,12 +93,12 @@ public class MongoDBDataAcess {
         return booksFromAuthor;
     }
 
-    public static ArrayList<Document> getAuthorMentionedCities(int authorId) {
+    public static ArrayList<Document> getAuthorMentionedCities(String authorName) {
         ArrayList<Document> CitiesMentioned = new ArrayList();
-        Set<Integer> authorCities = new HashSet<>();
+        Set<Integer> authorCities = new HashSet();
         MongoDatabase db = mongo.getDatabase("tester5");
         MongoCollection<Document> coll = db.getCollection("allRelations");
-        BasicDBObject query = new BasicDBObject("author_id", authorId);
+        BasicDBObject query = new BasicDBObject("author_id", getIntegerId(authorName, db.getCollection("authors2")));
         FindIterable<Document> docs = coll.find(query);
         for (Document doc : docs) {
             authorCities.add(doc.getInteger("city_id"));
@@ -106,6 +107,7 @@ public class MongoDBDataAcess {
         query2.put("id", new BasicDBObject("$in", authorCities));
         MongoCollection<Document> coll2 = db.getCollection("cities");
         FindIterable<Document> docs2 = coll2.find(query2);
+        System.out.println("First doc: " + docs2.first());
         for (Document doc : docs2) {
             CitiesMentioned.add(doc);
         }
@@ -120,10 +122,10 @@ public class MongoDBDataAcess {
         MongoDatabase db = mongo.getDatabase("tester5");
         MongoCollection<Document> coll = db.getCollection("cities");
         float[] cords = {longtitude, lattitude};
-        
-        BasicDBObject queryOnlyFind = new BasicDBObject("location", 
+
+        BasicDBObject queryOnlyFind = new BasicDBObject("location",
                 new BasicDBObject("$nearSphere", new BasicDBObject("type", "Point").append("coordinates", cords)).append("$maxDistance", leeway));
-        
+
         FindIterable<Document> docs = coll.find(queryOnlyFind);
         for (Document doc : docs) {
             nearbyCities.add(doc.getInteger("id"));
@@ -145,14 +147,14 @@ public class MongoDBDataAcess {
         return nearbyBooks;
     }
 
-    public static ArrayList<String> getAllBookNames(String collectionName) {
-        ArrayList<String> books = new ArrayList<>();
+    public static ArrayList<Document> getAllBookNames(String collectionName) {
+        ArrayList<Document> books = new ArrayList<>();
         MongoDatabase db = mongo.getDatabase("tester5");
         MongoCollection<Document> collection = db.getCollection(collectionName);
         FindIterable<Document> docs = collection.find();
         System.out.println("This is a test btw: -----------" + docs.first().toJson());
         for (Document doc : docs) {
-            books.add(doc.getString("title"));
+            books.add(doc);
         }
         return books;
     }
@@ -169,6 +171,19 @@ public class MongoDBDataAcess {
         return cities;
     }
 
+    private static Integer getIntegerId(String name, MongoCollection<Document> mongoColl) {
+        BasicDBObject query = new BasicDBObject("name", name);
+        FindIterable<Document> docs = mongoColl.find(query);
+        System.out.println("Giv mig et hej");
+        for (Document doc : docs) {
+            System.out.println("hej");
+        }
+        if (docs.first().getInteger("id") != null) {
+            return docs.first().getInteger("id");
+        }
+        return null;
+    }
+
     public String getBookInfo(String bookName) {
         // DB db = getMongoDB(mongo);
         // DBCollection table = db.getCollection("books");
@@ -176,93 +191,71 @@ public class MongoDBDataAcess {
         return null;
     }
 
+    
+    public static void createTable2() {
+        System.out.println("Kører Klasse");
+        MongoDatabase db = mongo.getDatabase("tester5");
+        List<Document> books = getAllBookNames("books");
+        List<Document> newBooks = new ArrayList();
+        MongoCollection<Document> collection = db.getCollection("authorBookRelations");
+        MongoCollection<Document> collection2 = db.getCollection("authors"); 
+        BasicDBObject bdo;
+        Integer tempAuthorId;
+        String tempAuthorName;
+        for (Document book : books) {
+            bdo = new BasicDBObject ("book_id",book.getInteger("id")); 
+            tempAuthorId = collection.find(bdo).first().getInteger("author_id");
+            System.out.println("myBdo: " + bdo);
+            bdo = new BasicDBObject("id",tempAuthorId);
+            System.out.println("myBdo: " + bdo);
+            tempAuthorName = collection.find(bdo).first().getString("name");
+            
+            book.append("author", tempAuthorName);
+            newBooks.add(book);
+        }
+        MongoCollection<Document> collection4 = db.getCollection("bookFinal");
+        collection4.insertMany(newBooks);
+    }
+
+    public static void createTable() {
+
+        MongoDatabase db = mongo.getDatabase("tester5");
+        ArrayList<Document> books = new ArrayList<>();
+        ArrayList<Document> relations = new ArrayList<>();
+        MongoCollection<Document> collection = db.getCollection("books");
+        FindIterable<Document> docs = collection.find();
+
+        for (Document doc : docs) {
+            books.add(doc);
+        }
+
+        MongoCollection<Document> collection2 = db.getCollection("authorBooksRelations");
+        FindIterable<Document> docs2 = collection.find();
+
+        for (Document doc : docs2) {
+            relations.add(doc);
+        }
+
+        MongoCollection<Document> collection3 = db.getCollection("authors");
+        FindIterable<Document> docs3 = collection.find();
+        for (Document book : books) {
+            int bookId = book.getInteger("id");
+            BasicDBObject tempQuery = new BasicDBObject("book_id", bookId);
+            FindIterable<Document> tempIds = collection2.find(tempQuery);
+            ArrayList<Integer> indexes = new ArrayList();
+            for (Document document : tempIds) {
+                document.getInteger("author_id");
+            }
+            BasicDBObject tempQuery2 = new BasicDBObject();
+            tempQuery2.put("id", new BasicDBObject("$in", tempIds));
+            FindIterable<Document> tempDocs = collection3.find(tempQuery2);
+            for (Document tempDoc : tempDocs) {
+                book.append("author", tempDoc);
+            }
+        }
+        MongoCollection<Document> collection4 = db.getCollection("bookFinal");
+        collection4.insertMany(books);
+
+    }
+
 }
-//    private static void populateWithTestData() {
-//        try {
-//            MongoDatabase database = mongo.getDatabase("test2");
-//            MongoCollection collectionOfBooks = database.getCollection("books");
-//            MongoCollection collectionOfCities = database.getCollection("cities");
-//            MongoCollection collectionOfMentions = database.getCollection("mentions");
-//
-//            //cities
-//            List<Document> cities = new ArrayList();
-//            Document city1 = new Document();
-//            city1.put("name", "Madrid");
-//            city1.put("lat", 40.41678);
-//            city1.put("lon", -3.70379);
-//            cities.add(city1);
-//            Document city2 = new Document();
-//            city2.put("name", "Toledo");
-//            city2.put("lat", 39.86283);
-//            city2.put("lon", -4.02732);
-//            cities.add(city2);
-//            Document city3 = new Document();
-//            city3.put("name", "Wiltshire");
-//            city3.put("lat", 51.34920);
-//            city3.put("lon", -1.99271);
-//            cities.add(city3);
-//
-//            collectionOfCities.insertMany(cities);
-//
-//            //books
-//            List<Document> books = new ArrayList();
-//            Document book1 = new Document();
-//            book1.put("title", "The Three Musketeers");
-//            book1.put("author", "Alexandre Dumas");
-//            List<Document> b1cities = new ArrayList();
-//            b1cities.add(city1);
-//            b1cities.add(city2);
-//            book1.put("cities", b1cities);
-//            books.add(book1);
-//
-//            Document book2 = new Document();
-//            book2.put("title", "The Black Tulip");
-//            book2.put("author", "Alexandre Dumas");
-//            List<Document> b2cities = new ArrayList();
-//            b2cities.add(city1);
-//            book2.put("cities", b2cities);
-//            books.add(book2);
-//
-//            Document book3 = new Document();
-//            book3.put("title", "Pride and Prejudice");
-//            book3.put("author", "Jane Austen");
-//            List<Document> b3cities = new ArrayList();
-//            b3cities.add(city3);
-//            book3.put("cities", b3cities);
-//            books.add(book3);
-//
-//            //mentions
-//            List<Document> mentions = new ArrayList();
-//            // Structuring of Mentions 
-//            Document m1 = new Document();
-//            m1.put("book", book1);
-//            m1.put("city", city1);
-//            m1.put("mentions", 56);
-//            mentions.add(m1);
-//            Document m2 = new Document();
-//            m2.put("book", book1);
-//            m2.put("city", city2);
-//            m2.put("mentions", 10);
-//            mentions.add(m2);
-//            Document m3 = new Document();
-//            m3.put("book", book2);
-//            m3.put("city", city1);
-//            m3.put("mentions", 2);
-//            mentions.add(m3);
-//            Document m4 = new Document();
-//            m4.put("book", book3);
-//            m4.put("city", city3);
-//            m4.put("mentions", 11);
-//            mentions.add(m4);
-//
-//            collectionOfBooks.insertMany(books);
-//            collectionOfMentions.insertMany(mentions);
-//
-//            System.out.println("DONE POPULATING THE DATABASE");
-//
-//        } catch (Exception e) {
-//            System.out.println("SOMETHING WENT WRONG");
-//            e.printStackTrace();
-//        }
-//
-//    }

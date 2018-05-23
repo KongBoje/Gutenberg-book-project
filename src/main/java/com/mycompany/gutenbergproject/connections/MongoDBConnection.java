@@ -6,16 +6,13 @@
 package com.mycompany.gutenbergproject.connections;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import java.io.File;
-import java.io.FileNotFoundException;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.List;
+import org.bson.Document;
 
 /**
  *
@@ -42,9 +39,12 @@ public class MongoDBConnection {
             return mongo;
         }
     }
-//    public static DB getMongoDB(MongoClient client) {
-//        DB db = client.getDB("bookstore");
-//        return db;
-//    }
+
+    public static void main(String[] args) {
+        MongoClient m = new MongoClient();
+       
+    }
+
+    
 
 }

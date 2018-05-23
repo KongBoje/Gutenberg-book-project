@@ -6,6 +6,8 @@
 package queries;
 
 import entities.AuthorBook;
+import entities.Book;
+import entities.BookCities;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -84,4 +86,16 @@ public class MySQLQueries {
         getMentioningBooksWithAuthors("Paris");
     }
 
+    public static ArrayList<Book> mentionedCities(String booktitle) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static ArrayList<BookCities> getBooksAndCities(String authorname) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static ArrayList<Book> getBooksMentioningRange(double latitude,double longtitude, int leeway) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
