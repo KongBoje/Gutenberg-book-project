@@ -25,7 +25,7 @@ public class MongoDBConnection {
     public MongoDBConnection() {
     }
 
-    public MongoClient getMongoConnection() {
+    public static MongoClient getMongoConnection() {
         try {
             if (mongo != null) {
                 return mongo;

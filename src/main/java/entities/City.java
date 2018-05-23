@@ -13,9 +13,9 @@ public class City {
     
     private int id; 
     private String name; 
-    private double[] coordinates;
+    private float[] coordinates;
 
-    public City(int id, String name, double[] coordinates) {
+    public City(int id, String name, float[] coordinates) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -37,11 +37,11 @@ public class City {
         this.name = name;
     }
 
-    public double[] getCoordinates() {
+    public float[] getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(double[] coordinates) {
+    public void setCoordinates(float[] coordinates) {
         this.coordinates = coordinates;
     }
     

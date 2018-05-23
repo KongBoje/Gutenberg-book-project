@@ -11,7 +11,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
+import entities.Book;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +34,11 @@ public class MongoDBDataAcess {
 
     public static void main(String[] args) {
         MongoDBDataAcess dbAcess = new MongoDBDataAcess();
-
-        createTable2();
+        ArrayList<Book> books = getBooksMentioningNearbyCities(-99.0815f, 40.6995f, 10000);
+        for (Book book : books) {
+            System.out.println("Id: " + book.getId() + "  Title: " + book.getTitle());
+        }
+       // createTable2();
 
 //        ArrayList<Document> myBooks = getAuthorMentionedCities("Orr, Lyndon");
 //        for (Document doc : myBooks) {   
@@ -115,8 +118,8 @@ public class MongoDBDataAcess {
         return CitiesMentioned;
     }
 
-    public static ArrayList<Document> getBooksMentioningNearbyCities(float longtitude, float lattitude, int leeway) {
-        ArrayList<Document> nearbyBooks = new ArrayList<>();
+    public static ArrayList<Book> getBooksMentioningNearbyCities(float longtitude, float lattitude, int leeway) {
+        ArrayList<Book> nearbyBooks = new ArrayList<>();
         Set<Integer> nearbyCities = new HashSet<>();
         Set<Integer> nearbyBookIds = new HashSet<>();
         MongoDatabase db = mongo.getDatabase("tester5");
@@ -142,7 +145,7 @@ public class MongoDBDataAcess {
         query3.put("id", new BasicDBObject("$in", nearbyBookIds));
         FindIterable<Document> docs3 = coll3.find(query3);
         for (Document doc : docs3) {
-            nearbyBooks.add(doc);
+            nearbyBooks.add(new Book(doc.getInteger("id"),doc.getString("title")));
         }
         return nearbyBooks;
     }
@@ -255,7 +258,6 @@ public class MongoDBDataAcess {
         }
         MongoCollection<Document> collection4 = db.getCollection("bookFinal");
         collection4.insertMany(books);
-
     }
 
 }

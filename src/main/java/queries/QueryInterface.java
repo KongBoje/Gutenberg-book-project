@@ -9,6 +9,7 @@ package queries;
 import entities.AuthorBook;
 import entities.Book;
 import entities.BookCities;
+import entities.City;
 import java.util.ArrayList;
 import static queries.QueryInterface.DBChoice.DB_MYSQL;
 
@@ -35,7 +36,7 @@ public class QueryInterface {
                 return null;
 	}
 
-	public static ArrayList<Book> mentionedCities(String booktitle, DBChoice db) {
+	public static ArrayList<City> mentionedCities(String booktitle, DBChoice db) {
 		if (db == DB_MYSQL) {
 			return MySQLQueries.mentionedCities(booktitle);
 		}if (db == DBChoice.DB_MONGODB) {
@@ -57,7 +58,7 @@ public class QueryInterface {
                 return null;
 	}
 
-	public static ArrayList<Book> getBooksMentioningRange(double latitude, double longtitude, int leeway, DBChoice db) {
+	public static ArrayList<Book> getBooksMentioningRange(float latitude, float longtitude, int leeway, DBChoice db) {
 		if (db == DB_MYSQL) {
 			return MySQLQueries.getBooksMentioningRange(latitude,longtitude,leeway);
 		}if (db == DBChoice.DB_MONGODB) {
