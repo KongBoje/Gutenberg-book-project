@@ -36,7 +36,7 @@ public class MongoDBDataAcess {
         MongoDBDataAcess dbAcess = new MongoDBDataAcess();
         ArrayList<Book> books = getBooksMentioningNearbyCities(-99.0815f, 40.6995f, 10000);
         for (Book book : books) {
-            System.out.println("Id: " + book.getId() + "  Title: " + book.getTitle());
+            System.out.println("  Title: " + book.getTitle());
         }
        // createTable2();
 
@@ -144,7 +144,7 @@ public class MongoDBDataAcess {
         query3.put("id", new BasicDBObject("$in", nearbyBookIds));
         FindIterable<Document> docs3 = coll3.find(query3);
         for (Document doc : docs3) {
-            nearbyBooks.add(new Book(doc.getInteger("id"),doc.getString("title")));
+            nearbyBooks.add(new Book(doc.getString("title")));
         }
         return nearbyBooks;
     }
