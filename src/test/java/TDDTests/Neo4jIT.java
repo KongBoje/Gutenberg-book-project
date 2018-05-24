@@ -87,7 +87,7 @@ public class Neo4jIT {
         ArrayList<String> books = new ArrayList<>();
         int expectedResult = 28;
         String title = "\"Pocahontas, A Poem\"";
-        String index = "'Bay'" + " " + 14.1837 + " " + 121.286;
+        String index = "'Bay'" + " " + "14.1837" + " " + "121.286";
 
         Session session = driver.session();
         String query = "MATCH ({title:" + title + "})-[:MENTIONS]->(city:City)\n"
@@ -97,7 +97,7 @@ public class Neo4jIT {
 
         while (result.hasNext()) {
             Record record = result.next();
-            books.add(record.get("name").asString() + " " + record.get("latitude").asDouble() + " " + record.get("longitude").asDouble());
+            books.add(record.get("name").asString() + " " + record.get("latitude").asString() + " " + record.get("longitude").asString());
         }
         int actualResult = books.size();
 
@@ -115,7 +115,7 @@ public class Neo4jIT {
         ArrayList<String> books = new ArrayList<>();
         int expectedResult = 387;
         String name = "\"Adams, Charles Francis\"";
-        String index = "\"Imperialism\" and \"The Tracks of Our Forefathers\"" + " " + "'Venezuela'" + " " + 21.7375 + " " + -78.7934;
+        String index = "\"Imperialism\" and \"The Tracks of Our Forefathers\"" + " " + "'Venezuela'" + " " + "21.7375" + " " + "-78.7934";
 
         Session session = driver.session();
         String query = "MATCH ({name:" + name + "})-[:WRITTEN]->(book:Book)-[:MENTIONS]->(city:City)\n"
@@ -125,7 +125,7 @@ public class Neo4jIT {
 
         while (result.hasNext()) {
             Record record = result.next();
-            books.add(record.get("title").asString() + " " + record.get("name").asString() + " " + record.get("latitude").asDouble() + " " + record.get("longitude").asDouble());
+            books.add(record.get("title").asString() + " " + record.get("name").asString() + " " + record.get("latitude").asString() + " " + record.get("longitude").asString());
         }
         int actualResult = books.size();
 
@@ -135,30 +135,36 @@ public class Neo4jIT {
         assertEquals(expectedResult, actualResult);
     }
 
-    @Ignore
+//    @Ignore
     @Test
     @DisplayName("Returns all books mentioning a city in vicinity of the given geolocation")
     public void getBooksByGeolocationIT() {
         Driver driver = Neo4jConnection.getConnection();
         ArrayList<String> books = new ArrayList<>();
-        int expectedResult = 1;
-        String title = "";
+        int expectedResult = 0;
+        String latitude = "53.7939";
+        String longitude = "-1.75206";
+        int distance = 20;
         String index = "";
 
         Session session = driver.session();
-        String query = "";
+        String query = "WITH " + latitude + " AS lat, " + longitude + " AS lon\n"
+                + "MATCH (l:City) \n"
+                + "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.name, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.name, \",\")[0])))* haversin(radians(lon - toFloat(split(l.name, \",\")[1]))))) <" + distance + "\n"
+                + "MATCH (l)<-[:MENTIONS]-(book:Book)\n"
+                + "RETURN l.name AS name, book.title AS title";
 
         StatementResult result = session.run(query);
 
         while (result.hasNext()) {
             Record record = result.next();
-            books.add(record.get("").asString());
+            books.add(record.get("name").asString() + " " + record.get("title").asString());
         }
         int actualResult = books.size();
 
-        assertThat(books.isEmpty(), is(false));
+        assertThat(books.isEmpty(), is(true));
         assertThat(books.containsAll(books), is(true));
-        assertThat(books.get(10), equalTo(index));
+//        assertThat(books.get(0), equalto(index));
         assertEquals(expectedResult, actualResult);
     }
 }
