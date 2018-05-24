@@ -43,10 +43,10 @@ public class QueryInterface {
                 return null;
             }
         }
-/*        if (db == DBChoice.DB_MONGODB) {
+                if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getMentioningBooksWithAuthors(cityname);
         }
-        if (db == DBChoice.DB_NEO4J) {
+        /*if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.getMentioningBooksWithAuthors(cityname);
         }*/
         return null;
@@ -61,9 +61,9 @@ public class QueryInterface {
                 return null;
             }
         }
-/*        if (db == DBChoice.DB_MONGODB) {
+               if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.mentionedCities(booktitle);
-        }
+        }/* 
         if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.mentionedCities(booktitle);
         }*/
@@ -72,16 +72,11 @@ public class QueryInterface {
 
     public static ArrayList<BookCity> getBooksAndCities(String authorname, DBChoice db) {
         if (db == DB_MYSQL) {
-            try {
-                return MySQLQueries.getBooksAndCities(authorname);
-            } catch (SQLException ex) {
-                Logger.getLogger(QueryInterface.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            }
+            return MySQLQueries.getBooksAndCities(authorname);
         }
-/*        if (db == DBChoice.DB_MONGODB) {
+               if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getBooksAndCities(authorname);
-        }
+        }/* 
         if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.getBooksAndCities(authorname);
         }*/
@@ -97,9 +92,9 @@ public class QueryInterface {
                 return null;
             }
         }
-/*        if (db == DBChoice.DB_MONGODB) {
+                if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getBooksMentioningRange(latitude, longtitude, leeway);
-        }
+        }/*
         if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.getBooksMentioningRange(latitude, longtitude, leeway);
         }*/
