@@ -19,4 +19,22 @@ public class BookCities {
         this.cities = cities;
     }
     private List<String> cities;
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public List<String> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<String> cities) {
+        this.cities = cities;
+    }
+    
+    
 }

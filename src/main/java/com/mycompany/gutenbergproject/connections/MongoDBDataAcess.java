@@ -64,7 +64,6 @@ public class MongoDBDataAcess {
         for (Document doc : docs) {
             mentions.add(doc.getInteger("city_id"));
         }
-        System.out.println("metions: " + mentions);
         BasicDBObject query2 = new BasicDBObject();
         query2.put("id", new BasicDBObject("$in", mentions));
         MongoCollection<Document> coll2 = db.getCollection("cities");
