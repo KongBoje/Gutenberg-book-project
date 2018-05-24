@@ -8,6 +8,8 @@ package queries;
 import entities.AuthorBook;
 import entities.Book;
 import entities.BookCities;
+import entities.BookCity;
+import entities.City;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,83 +21,145 @@ import java.util.logging.Logger;
 
 public class MySQLQueries {
 
-    private static Connection getConnection() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root");
+    private static Connection getConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root&serverTimezone=UTC");
+        } catch (SQLException ex) {
+            System.out.println("SHIT");
+            return null;
+        }
+
     }
 
-    public static ArrayList<AuthorBook> getMentioningBooksWithAuthors(String cityname) {
+    public static ArrayList<AuthorBook> getMentioningBooksWithAuthors(String cityname) throws SQLException, ClassNotFoundException {
         ArrayList<AuthorBook> ret = new ArrayList<>();
-
-        System.out.println("find with " + cityname);
-        
         Connection c = null;
         Statement s = null;
         ResultSet r = null;
 
-        try {
-            c = getConnection();
-            s = c.createStatement();
-            r = s.executeQuery("SELECT book_t.title, author_t.name FROM abc_relation_t "
-                    + "INNER JOIN book_t ON book_t.id = abc_relation_t.book_id "
-                    + "INNER JOIN author_t ON author_t.id = abc_relation_t.author_id "
-                    + "WHERE city_id = "
-                    + "(SELECT city_t.id FROM city_t "
-                    + "WHERE city_t.name = \"" + cityname + "\") LIMIT 10");
+        c = getConnection();
+        s = c.createStatement();
+        r = s.executeQuery("SELECT book_t.title, author_t.name FROM abc_relation_t "
+                + "INNER JOIN book_t ON book_t.id = abc_relation_t.book_id "
+                + "INNER JOIN author_t ON author_t.id = abc_relation_t.author_id "
+                + "WHERE city_id = "
+                + "(SELECT city_t.id FROM city_t "
+                + "WHERE city_t.name = \"" + cityname + "\")");
 
-            System.out.println("Query ok");
-            while (r.next()) {
-                ret.add(new AuthorBook(r.getString("name"), r.getString("title")));
-            }
-            
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getLocalizedMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MySQLQueries.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (r != null) {
-                try {
-                    r.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(MySQLQueries.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (s != null) {
-                try {
-                    s.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(MySQLQueries.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (c != null) {
-                try {
-                    c.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(MySQLQueries.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
+        while (r.next()) {
+            ret.add(new AuthorBook(r.getString("name"), r.getString("title")));
         }
 
-        System.out.println("Retrn somethin with len " + ret.size());
+        if (r != null) {
+            r.close();
+        }
+
+        if (s != null) {
+            s.close();
+        }
+
+        if (c != null) {
+            c.close();
+        }
+
         return ret;
     }
-    
-    public static void main(String[] args) {
-        getMentioningBooksWithAuthors("Paris");
+
+    public static ArrayList<City> getMentionedCities(String booktitle) throws SQLException {
+        ArrayList<City> ret = new ArrayList<>();
+        Connection c = null;
+        Statement s = null;
+        ResultSet r = null;
+
+        c = getConnection();
+        s = c.createStatement();
+        r = s.executeQuery("SELECT city_t.name, city_t.latitude, city_t.longtitude "
+                + "FROM abc_relation_t INNER JOIN book_t ON book_t.id = abc_relation_t.book_id "
+                + "INNER JOIN city_t ON city_t.id = abc_relation_t.city_id "
+                + "WHERE abc_relation_t.book_id = "
+                + "(SELECT id FROM book_t WHERE book_t.title = \"" + booktitle + "\")");
+
+        while (r.next()) {
+            ret.add(new City(r.getString("name"), r.getFloat("latitude"), r.getFloat("longtitude")));
+        }
+
+        r.close();
+        s.close();
+        c.close();
+
+        return ret;
     }
 
-    public static ArrayList<Book> mentionedCities(String booktitle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static ArrayList<BookCity> getBooksAndCities(String authorname) throws SQLException {
+        ArrayList<BookCity> ret = new ArrayList<>();
+        Connection c = null;
+        Statement s = null;
+        ResultSet r = null;
+
+        c = getConnection();
+        s = c.createStatement();
+        r = s.executeQuery("SELECT book_t.title, city_t.name, city_t.latitude, city_t.longtitude "
+                + "FROM abc_relation_t JOIN city_t ON city_t.id = abc_relation_t.city_id "
+                + "INNER JOIN book_t ON book_t.id = abc_relation_t.book_id "
+                + "WHERE abc_relation_t.author_id = "
+                + "(SELECT author_t.id FROM author_t WHERE author_t.name = \"" + authorname + "\")");
+
+        while (r.next()) {
+            ret.add(new BookCity(r.getString("title"), r.getString("name"), r.getFloat("latitude"), r.getFloat("longtitude")));
+        }
+
+        r.close();
+        s.close();
+        c.close();
+
+        return ret;
     }
 
-    public static ArrayList<BookCities> getBooksAndCities(String authorname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static ArrayList<Book> getBooksMentioningRange(float latitude, float longtitude, float leeway) throws SQLException {
+        ArrayList<Book> ret = new ArrayList<>();
+        Connection c = null;
+        Statement s = null;
+        ResultSet r = null;
+
+        ArrayList<Integer> cityIds = new ArrayList<>();
+
+        c = getConnection();
+        s = c.createStatement();
+        r = s.executeQuery(
+                "SELECT * FROM city_t WHERE latitude > " + (latitude - leeway)
+                + " AND latitude < " + (latitude + leeway)
+                + " AND longtitude > " + (longtitude - leeway)
+                + " AND longtitude < " + (longtitude + leeway));
+
+        while (r.next()) {
+            cityIds.add(r.getInt("id"));
+        }
+
+        r.close();
+        s.close();
+
+        for (Integer i : cityIds) {
+            s = c.createStatement();
+            r = s.executeQuery("SELECT book_t.title FROM book_city_relation_t JOIN book_t ON book_t.id = book_city_relation_t.book_id WHERE city_id = " + i);
+
+            while (r.next()) {
+
+                ret.add(new Book(r.getString(1)));
+            }
+
+            r.close();
+            s.close();
+        }
+
+        c.close();
+
+        return ret;
     }
 
-    public static ArrayList<Book> getBooksMentioningRange(double latitude,double longtitude, int leeway) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        for (Book b : getBooksMentioningRange(31, 65, 1)) {
+            System.out.println(b.getTitle());
+        }
     }
-    
+
 }

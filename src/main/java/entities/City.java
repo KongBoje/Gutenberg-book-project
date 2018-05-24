@@ -11,13 +11,11 @@ package entities;
  */
 public class City {
     
-    private int id; 
     private String name; 
     private float lat;
     private float lon;
 
-    public City(int id, String name, float lat, float lon) {
-        this.id = id;
+    public City(String name, float lat, float lon) {
         this.name = name;
         this.lat = lat;
         this.lon = lon;
@@ -40,15 +38,6 @@ public class City {
     }
     
    
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
