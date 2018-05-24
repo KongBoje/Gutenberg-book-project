@@ -60,7 +60,7 @@ public class Mongo_performanceTest {
         
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
-            getBooksMentioningRange(coordinateSet[i][0],coordinateSet[i][1], 11888);
+            getBooksMentioningRange(coordinateSet[i][0],coordinateSet[i][1], 15000);
         }
         end = System.currentTimeMillis();
         results.add((end-start)/1000L);
