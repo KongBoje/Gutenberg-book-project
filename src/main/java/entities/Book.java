@@ -11,20 +11,10 @@ package entities;
  */
 public class Book {
     
-    private int id;
     private String title;
 
-    public Book(int id, String title) {
-        this.id = id;
+    public Book(String title) {
         this.title = title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
