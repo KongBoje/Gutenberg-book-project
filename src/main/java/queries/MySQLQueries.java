@@ -20,10 +20,11 @@ public class MySQLQueries {
 
     private static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql:/localhost:3306/guten?user=root&password=root&serverTimezone=UTC");
-            //return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root&serverTimezone=UTC");
+            //return DriverManager.getConnection("jdbc:mysql://localhost/guten?user=root&password=root&serverTimezone=UTC");
+            return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root&serverTimezone=UTC");
         } catch (SQLException ex) {
             System.out.println("SHIT");
+            System.out.println(ex.getMessage());
             return null;
         }
 
