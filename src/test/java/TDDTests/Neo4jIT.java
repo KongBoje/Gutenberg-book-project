@@ -152,13 +152,13 @@ public class Neo4jIT {
                 + "MATCH (l:City) \n"
                 + "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.name, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.name, \",\")[0])))* haversin(radians(lon - toFloat(split(l.name, \",\")[1]))))) <" + distance + "\n"
                 + "MATCH (l)<-[:MENTIONS]-(book:Book)\n"
-                + "RETURN l.name AS name, book.title AS title";
+                + "RETURN l";
 
         StatementResult result = session.run(query);
 
         while (result.hasNext()) {
             Record record = result.next();
-            books.add(record.get("name").asString() + " " + record.get("title").asString());
+            books.add(record.get("name").asString());
         }
         int actualResult = books.size();
 
