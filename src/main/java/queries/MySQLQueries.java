@@ -7,7 +7,6 @@ package queries;
 
 import entities.AuthorBook;
 import entities.Book;
-import entities.BookCities;
 import entities.BookCity;
 import entities.City;
 import java.sql.Connection;
@@ -16,14 +15,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MySQLQueries {
 
     private static Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root&serverTimezone=UTC");
+            return DriverManager.getConnection("jdbc:mysql:/localhost:3306/guten?user=root&password=root&serverTimezone=UTC");
+            //return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root&serverTimezone=UTC");
         } catch (SQLException ex) {
             System.out.println("SHIT");
             return null;

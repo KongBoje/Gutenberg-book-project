@@ -68,12 +68,7 @@ public class Mongo_performanceTest {
         results.add((end-start)/1000L);
         
         return results;
-    }
-    
-    public void setUp() {
-        
-    }
-    
+    }  
 
     public static void getMentioningBooksWithAuthorTest(String cityname) {
         System.out.println("-----------------------------------: Starting Test! ");
