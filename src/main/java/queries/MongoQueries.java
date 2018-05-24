@@ -13,10 +13,11 @@ import com.mongodb.client.MongoDatabase;
 import com.mycompany.gutenbergproject.connections.MongoDBConnection;
 import entities.AuthorBook;
 import entities.Book;
-import entities.BookCities;
+import entities.BookCity;
 import entities.City;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.bson.Document;
@@ -37,14 +38,15 @@ public class MongoQueries {
 
     public static void main(String[] args) {
         MongoQueries connection = new MongoQueries();
-        ArrayList<BookCities> bookCities = getBooksAndCities("Abbott, Evelyn");
+        // ArrayList<BookCities> bookCities = getBooksAndCities("Abbott, Evelyn");
+        ArrayList<BookCity> books = getBooksAndCities("Abbott, Evelyn");
         int count = 0;
-        for (BookCities bookCity : bookCities) {
+        for (BookCity bookCity : books) {
             if (count == 5) {
                 break;
             }
-            System.out.println(bookCity.getBookName() + ": ");
-            System.out.println(bookCity.getCities());
+            System.out.println("Title:  " + bookCity.bookTitle + "  City Name: " + bookCity.cityName);
+            System.out.println("Coords:" + bookCity.latitude + " ; " + bookCity.longtitude);
             count++;
         }
 
@@ -53,7 +55,9 @@ public class MongoQueries {
         //ArrayList<AuthorBook> myStuff = getMentioningBooksWithAuthors("'Sar-e Pul'");
     }
 
-    public static ArrayList<AuthorBook> getMentioningBooksWithAuthors(String cityname) {
+    public static ArrayList<AuthorBook> getMentioningBooksWithAuthors(String cityname) throws ClassCastException {
+        MongoQueries connection = new MongoQueries();
+
         ArrayList<Integer> mentions = new ArrayList();
         ArrayList<AuthorBook> authorBook = new ArrayList<>();
         MongoDatabase db = mongo.getDatabase("tester5");
@@ -69,12 +73,16 @@ public class MongoQueries {
         MongoCollection<Document> coll2 = db.getCollection("bookFinal");
         FindIterable<Document> docs2 = coll2.find(query2);
         for (Document doc : docs2) {
-            authorBook.add(new AuthorBook(doc.getString("author"), doc.getString("title")));
+            if (doc.get("author") instanceof String && doc.get("title") instanceof String) {
+                authorBook.add(new AuthorBook(doc.getString("author"), doc.getString("title")));
+            }
         }
         return authorBook;
     }
 
-    public static ArrayList<BookCities> getBooksAndCities(String authorname) {
+    public static ArrayList<BookCity> getBooksAndCities(String authorname) {
+        MongoQueries connection = new MongoQueries();
+
         List<Document> booksFromAuthor = new ArrayList();
         List<Integer> authorsRelations = new ArrayList();
         MongoDatabase db = mongo.getDatabase("tester5");
@@ -93,7 +101,7 @@ public class MongoQueries {
         }
         MongoCollection<Document> coll3 = db.getCollection("bookCityRelations");
         MongoCollection<Document> coll4 = db.getCollection("cities");
-        ArrayList<BookCities> citiesBooks = new ArrayList();
+        ArrayList<BookCity> citiesBooks = new ArrayList();
         for (Document doc : booksFromAuthor) {
             BasicDBObject query3 = new BasicDBObject("book_id", doc.getInteger("id"));
             FindIterable<Document> docs3 = coll3.find(query3);
@@ -106,15 +114,18 @@ public class MongoQueries {
             FindIterable<Document> docs4 = coll4.find(query4);
             List<String> bookCities = new ArrayList();
             for (Document document : docs4) {
-                bookCities.add(document.getString("name"));
+                String[] numbers = document.toString().replaceAll("[^0-9.,]", "").split(",");
+                citiesBooks.add(new BookCity(doc.getString("title"), document.getString("name"), Float.parseFloat(numbers[5]), Float.parseFloat(numbers[4])));
             }
-            citiesBooks.add(new BookCities(doc.getString("title"), bookCities));
+            //citiesBooks.add(new BookCity(doc.getString(""), authorname, 0, 0));
         }
 
         return citiesBooks;
     }
 
     public static ArrayList<City> mentionedCities(String booktitle) {
+        MongoQueries connection = new MongoQueries();
+
         ArrayList<Integer> mentions = new ArrayList();
         ArrayList<City> cities = new ArrayList<>();
         MongoDatabase db = mongo.getDatabase("tester5");
@@ -124,20 +135,20 @@ public class MongoQueries {
         for (Document doc : docs) {
             mentions.add(doc.getInteger("city_id"));
         }
-        System.out.println("metions: " + mentions);
         BasicDBObject query2 = new BasicDBObject();
         query2.put("id", new BasicDBObject("$in", mentions));
         MongoCollection<Document> coll2 = db.getCollection("cities");
         FindIterable<Document> docs2 = coll2.find(query2);
-        System.out.println(docs2.first());
         for (Document doc : docs2) {
             String[] numbers = doc.toString().replaceAll("[^0-9.,]", "").split(",");
-            cities.add(new City(doc.getInteger("id"), doc.getString("name"), Float.parseFloat(numbers[5]), Float.parseFloat(numbers[4])));
+            cities.add(new City(doc.getString("name"), Float.parseFloat(numbers[5]), Float.parseFloat(numbers[4])));
         }
         return cities;
     }
 
     public static ArrayList<Book> getBooksMentioningRange(float latitude, float longtitude, int leeway) {
+        MongoQueries connection = new MongoQueries();
+
         ArrayList<Book> nearbyBooks = new ArrayList<>();
         Set<Integer> nearbyCities = new HashSet<>();
         Set<Integer> nearbyBookIds = new HashSet<>();
@@ -164,7 +175,7 @@ public class MongoQueries {
         query3.put("id", new BasicDBObject("$in", nearbyBookIds));
         FindIterable<Document> docs3 = coll3.find(query3);
         for (Document doc : docs3) {
-            nearbyBooks.add(new Book(doc.getInteger("id"), doc.getString("title")));
+            nearbyBooks.add(new Book(doc.getString("title")));
         }
         return nearbyBooks;
     }
@@ -172,13 +183,18 @@ public class MongoQueries {
     private static Integer getIntegerId(String name, MongoCollection<Document> mongoColl, String type) {
         BasicDBObject query = new BasicDBObject(type, name);
         FindIterable<Document> docs = mongoColl.find(query);
-        return docs.first().getInteger("id");
+        for (Iterator<Document> it = docs.iterator(); it.hasNext();) {
+            if (docs.first().get("id") instanceof Integer) {
+                return docs.first().getInteger("id");
+            }
+        }
+        return null;
     }
 
     private static ArrayList<Document> getRelations() {
         ArrayList<Document> relations = new ArrayList();
-        
+
         return relations;
-    }   
+    }
 
 }

@@ -13,10 +13,11 @@ import java.util.List;
  */
 public class BookCities {
     private String bookName;
-
+    private List<String> cities;
+    
     public BookCities(String bookName, List<String> cities) {
         this.bookName = bookName;
         this.cities = cities;
     }
-    private List<String> cities;
+    
 }

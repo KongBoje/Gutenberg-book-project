@@ -72,7 +72,11 @@ public class QueryInterface {
 
     public static ArrayList<BookCity> getBooksAndCities(String authorname, DBChoice db) {
         if (db == DB_MYSQL) {
-            return MySQLQueries.getBooksAndCities(authorname);
+            try {
+                return MySQLQueries.getBooksAndCities(authorname);
+            } catch (SQLException ex) {
+                Logger.getLogger(QueryInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
                if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getBooksAndCities(authorname);
