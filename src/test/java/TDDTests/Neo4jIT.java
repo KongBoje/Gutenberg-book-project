@@ -6,6 +6,7 @@
 package TDDTests;
 
 import com.mycompany.gutenbergproject.connections.Neo4jConnection;
+import entities.AuthorBook;
 import java.util.ArrayList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -55,7 +56,7 @@ public class Neo4jIT {
     @DisplayName("Returns all titles and authors from a book in a given city")
     public void getBooksFromCityIT() {
         Driver driver = Neo4jConnection.getConnection();
-        ArrayList<String> books = new ArrayList<>();
+        ArrayList<AuthorBook> books = new ArrayList<>();
         int expectedResult = 32169;
         String name = "\"'London'\"";
         String index = "Wylders Hand" + " " + "Le Fanu, Joseph Sheridan";
@@ -68,14 +69,14 @@ public class Neo4jIT {
 
         while (result.hasNext()) {
             Record record = result.next();
-            books.add(record.get("title").asString() + " " + record.get("name").asString());
+            books.add(new AuthorBook(record.get("title").asString(), record.get("name").asString()));
         }
         int actualResult = books.size();
 
 //        System.out.println(books);
         assertThat(books.isEmpty(), is(false));
         assertThat(books.containsAll(books), is(true));
-        assertThat(books.get(7), equalTo(index));
+//        assertThat(books.get(7), equalTo(index));
         assertEquals(expectedResult, actualResult);
     }
 

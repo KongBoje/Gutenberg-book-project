@@ -46,9 +46,9 @@ public class QueryInterface {
                 if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getMentioningBooksWithAuthors(cityname);
         }
-        /*if (db == DBChoice.DB_NEO4J) {
+        if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.getMentioningBooksWithAuthors(cityname);
-        }*/
+        }
         return null;
     }
 
@@ -63,10 +63,10 @@ public class QueryInterface {
         }
                if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.mentionedCities(booktitle);
-        }/* 
+        }
         if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.mentionedCities(booktitle);
-        }*/
+        }
         return null;
     }
 
@@ -80,10 +80,10 @@ public class QueryInterface {
         }
                if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getBooksAndCities(authorname);
-        }/* 
+        }
         if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.getBooksAndCities(authorname);
-        }*/
+        }
         return null;
     }
 
@@ -98,10 +98,10 @@ public class QueryInterface {
         }
                 if (db == DBChoice.DB_MONGODB) {
             return MongoQueries.getBooksMentioningRange(latitude, longtitude, leeway);
-        }/*
+        }
         if (db == DBChoice.DB_NEO4J) {
             return Neo4jQueries.getBooksMentioningRange(latitude, longtitude, leeway);
-        }*/
+        }
         return null;
     }
 }
