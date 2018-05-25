@@ -5,51 +5,79 @@
  */
 package performanceTest;
 
+import java.util.ArrayList;
 import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static performanceTest.Mongo_performanceTest.getBooksAndCitiesTest;
+import static performanceTest.Mongo_performanceTest.getBooksMentioningRange;
+import static performanceTest.Mongo_performanceTest.getMentioningBooksWithAuthorTest;
+import static performanceTest.Mongo_performanceTest.mentionedCitiesTest;
+import queries.QueryInterface;
 
 /**
  *
  * @author OpieOP
  */
-public class MYSQL_performanceTest implements testInterface{
-    
-    private final String[] citySet = {"'Sar-e Pul'","'Szczecin'","'New York City'","'London'", "'Copenhagen'"};
-    private final String[] titleSet = {"Charlotte Brontë and Her Circle", "I Married a Ranger, A Short Method Of Prayer", "In the Track of the Bookworm", "Much Ado About Something","Bimbi, Stories for Children"};
-    private final String[] authorSet = {"Abbott, Edwin Abbott", "Karasowski, Maurycy" , "Taylor, Robert Bruce", "Sherman, Frederic, Mrs.", "Terry, Dorothy"};
-    private final float[][] coordinateSet = {{51f,0f},{36.2154f, 65.9325f},{53.4289f,14.553f},{40.7143f,-74.006f},{55.6759f,12.5655f}};
-    
-    public MYSQL_performanceTest() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
+public class MYSQL_performanceTest  {
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    private static final String[] citySet = {"Sar-e Pul", "Szczecin", "New York City", "London", "Copenhagen"};
+    private static final String[] titleSet = {"Charlotte Brontë and Her Circle", "I Married a Ranger", "In the Track of the Bookworm", "Much Ado About Something", "Bimbi, Stories for Children"};
+    private static final String[] authorSet = {"Abbott, Edwin Abbott", "Karasowski, Maurycy", "Taylor, Robert Bruce", "Sherman, Frederic, Mrs.", "Terry, Dorothy"};
+    private static final float[][] coordinateSet = {{51f, 0f}, {36.2154f, 65.9325f}, {53.4289f, 14.553f}, {40.7143f, -74.006f}, {55.6759f, 12.5655f}};
 
-    @Override
-    public void getMentioningBooksWithAuthorTest(String cityname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static long start;
+    private static long end;
+
+    public static void main(String[] args) {
+
+        ArrayList<Long> myResults = MySqlPerformance();
     }
 
-    @Override
-    public void mentionedCitiesTest(String booktitle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static ArrayList<Long> MySqlPerformance() {
+        ArrayList<Long> results = new ArrayList();
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 5; i++) {
+            getMentioningBooksWithAuthorTest(citySet[i]);
+        }
+        end = System.currentTimeMillis();
+        results.add((end - start) / 1000L);
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 5; i++) {
+            mentionedCitiesTest(titleSet[i]);
+        }
+        end = System.currentTimeMillis();
+        results.add((end - start) / 1000L);
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 5; i++) {
+            getBooksAndCitiesTest(authorSet[i]);
+        }
+        end = System.currentTimeMillis();
+        results.add((end - start) / 1000L);
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 5; i++) {
+            getBooksMentioningRange(coordinateSet[i][0], coordinateSet[i][1], 1);
+        }
+        end = System.currentTimeMillis();
+        results.add((end - start) / 1000L);
+
+        return results;
     }
 
-    @Override
-    public void getBooksAndCitiesTest(String authorname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void getMentioningBooksWithAuthorTest(String cityname) {
+        QueryInterface.getMentioningBooksWithAuthors(cityname, QueryInterface.DBChoice.DB_MYSQL);
     }
 
-    @Override
-    public void getBooksMentioningRange(float latitude, float longtitude, int leeway) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void mentionedCitiesTest(String booktitle) {
+        QueryInterface.mentionedCities(booktitle, QueryInterface.DBChoice.DB_MYSQL);
+    }
+
+    public static void getBooksAndCitiesTest(String authorname) {
+        QueryInterface.getBooksAndCities(authorname, QueryInterface.DBChoice.DB_MYSQL);
+    }
+
+    public static void getBooksMentioningRange(float latitude, float longtitude, int leeway) {
+        QueryInterface.getBooksMentioningRange(latitude, longtitude, leeway, QueryInterface.DBChoice.DB_MYSQL);
     }
 }

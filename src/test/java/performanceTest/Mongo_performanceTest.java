@@ -19,7 +19,7 @@ public class Mongo_performanceTest {
     
     
     private static final String[] citySet = {"'Sar-e Pul'","'Szczecin'","'New York City'","'London'", "'Copenhagen'"};
-    private static final String[] titleSet = {"Charlotte Brontë and Her Circle", "I Married a Ranger, A Short Method Of Prayer", "In the Track of the Bookworm", "Much Ado About Something","Bimbi, Stories for Children"};
+    private static final String[] titleSet = {"Charlotte Brontë and Her Circle", "I Married a Ranger", "In the Track of the Bookworm", "Much Ado About Something","Bimbi: Stories for Children"};
     private static final String[] authorSet = {"Abbott, Edwin Abbott", "Karasowski, Maurycy" , "Taylor, Robert Bruce", "Sherman, Frederic, Mrs.", "Terry, Dorothy"};
     private static final float[][] coordinateSet = {{51f,0f},{36.2154f, 65.9325f},{53.4289f,14.553f},{40.7143f,-74.006f},{55.6759f,12.5655f}};
     
@@ -32,9 +32,7 @@ public class Mongo_performanceTest {
     }
     
     public static void main(String[] args) {
-        
         ArrayList<Long> myResults = MongoPerformance();
-        System.out.println("Dette er mine resultater: " + myResults);
     }
     
     public static ArrayList<Long> MongoPerformance(){
@@ -62,7 +60,7 @@ public class Mongo_performanceTest {
         
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
-            getBooksMentioningRange(coordinateSet[i][0],coordinateSet[i][1], 10000);
+            getBooksMentioningRange(coordinateSet[i][0],coordinateSet[i][1], 15000);
         }
         end = System.currentTimeMillis();
         results.add((end-start)/1000L);
@@ -71,7 +69,6 @@ public class Mongo_performanceTest {
     }  
 
     public static void getMentioningBooksWithAuthorTest(String cityname) {
-        System.out.println("-----------------------------------: Starting Test! ");
         QueryInterface.getMentioningBooksWithAuthors(cityname, QueryInterface.DBChoice.DB_MONGODB);
     }
 

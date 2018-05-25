@@ -39,18 +39,10 @@ public class MongoQueries {
     public static void main(String[] args) {
         MongoQueries connection = new MongoQueries();
         // ArrayList<BookCities> bookCities = getBooksAndCities("Abbott, Evelyn");
-        ArrayList<BookCity> books = getBooksAndCities("Abbott, Evelyn");
-        int count = 0;
-        for (BookCity bookCity : books) {
-            if (count == 5) {
-                break;
-            }
-            System.out.println("Title:  " + bookCity.bookTitle + "  City Name: " + bookCity.cityName);
-            System.out.println("Coords:" + bookCity.latitude + " ; " + bookCity.longtitude);
-            count++;
-        }
+        //ArrayList<BookCity> books = getBooksAndCities("Abbott, Evelyn");
 
-        //ArrayList<Book> books = getBooksMentioningRange( 40.6995f,-99.0815f, 10000);
+        ArrayList<Book> books = getBooksMentioningRange(40.7143f, -74.006f, 100000);
+        System.out.println(books.size() + "------------");
         //ArrayList<City> cities = mentionedCities("—And Devious the Line of Duty");
         //ArrayList<AuthorBook> myStuff = getMentioningBooksWithAuthors("'Sar-e Pul'");
     }
