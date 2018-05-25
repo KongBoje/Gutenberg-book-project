@@ -17,3 +17,8 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/Modeling%20Guidelines.pdf
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/Neo4j%20Performance.pdf
 
+---
+
+Redskaberne der blev brugt her var MySQL, NoSQL og Neo4J som vores databaser. Netbeans blev brugt som main redskab, da vi lavede det i java. Parsing blev brugt med Python2.
+
+Så for at få vores projekt op at køre skal du først have dette.
