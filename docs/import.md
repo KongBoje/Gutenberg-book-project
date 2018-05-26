@@ -70,7 +70,7 @@ steps. Først for at indsætte dataen, og så for at lave opslag på dataen for 
 få fat i id'erne og at lave relationerne.
 
 Til sidst manglede kun parsing af bynavne og relationerne bogid:byid.
-Python2-scriptet `cityfinder.py` indlæser de i forvejen skabte dictionaries med
+Python2-scriptet `city_finder.py` indlæser de i forvejen skabte dictionaries med
 interessante bynavne, bynavne og by-id'er. Den går så igennem hver paragraf, og
 checker om hvert ord er et interessant ord. Støder den på et interessant ord,
 vil den checke om de næste 6 ord udgør et bynavn. Hvis ej, så check de næste
