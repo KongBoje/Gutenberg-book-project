@@ -92,6 +92,8 @@ redundans, men nogle opslag blev langt hurtigere ved at bruge denne tabel
 istedet.
 For at importere til de andre databaser, blev der eksporteret fra SQL til en
 CSV, som de andre databaser kunne læse.
+Senere viste det sig at query på authors og books der nævner en by via JOINS
+var langsomme da der ikke var et index på city_t.name
 
 # Diagram
 
