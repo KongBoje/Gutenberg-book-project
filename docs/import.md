@@ -93,3 +93,8 @@ istedet.
 For at importere til de andre databaser, blev der eksporteret fra SQL til en
 CSV, som de andre databaser kunne læse.
 
+# Diagram
+
+Dette er et diagram over hvordan databasestrukturen ser ud.
+![lortediagram.png](lortediagram.png)
+
