@@ -18,7 +18,8 @@ Til SQL handlede det om at få dataen struktureret på en meningsfuld måde uden
 
 
 Neo4j struktur er lidt anderledes i forhold til andre database paradigmer, denne paradigm modellere databasen efter grafer.
-<Billede>
+
+![alt text](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/image3.png "Graph")
 
 Dette er den logisk model af vores Neo4j database, modellen er lavet meget efter hvordan MySQL databasen blev modelleret. Vi har tre entiteter og to relationer, entiteterne værende Author med id og name, Book med id og titel og til sidst City med id, name, longitude og latitude. De to relationer har navnene Written og Mentions, Written relationen er mellem Author og Book og Mentions relationen er mellem Book og City. Disse entiteter og relationer blev importeret ned til den fysiske model via csv filer i Cypher, som er det sprog neo4j bruger. Først blev entiteterne importeret ned derefter fik de deres unikke indexer og constraints, da dette ville gøre importen af relationerne hurtigt, som blev importeret til sidst.
 Efter alt var blevet importeret blev den fysiske model lavet.
