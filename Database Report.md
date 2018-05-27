@@ -27,7 +27,7 @@ Det krævede en masse tid og ressourcer at få dataen fra alle bøger lagt ned i
 
 MongoDB tilbyder både relationer og selvfølgelig de fordele, som medfører at være en Nosql database - bestående af dokumenter. En bedre og formentlig hurtigere struktur, ville være at samle dataen under en kollektion af bøger, med hver deres author(s) samt en liste af nævnte byer. Havde vi haft mere tid - ville vi have konverteret dataen fra databasen til en ny struktur der kunne have set sådan ud: 
 
-<Billede>
+![alt text](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/image2.png "Mongo")
   
 Denne struktur ville have et dokument per bog, med tilhørende author samt en liste af byer - der hver har et sæt af koordinater. Alle queries kunne tage udgangspunkt i denne ene kollektion, og gennem et enkelt kald til databasen, hente den ønskede information. Denne opstilling er desuden simpel og intuitiv, hvilket giver rig mulighed for skalering og videre udvikling.  
 
