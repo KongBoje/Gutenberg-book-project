@@ -174,3 +174,6 @@ At opbygge lige netop denne applikation, så gav det god mening at udarbejde den
 Denne database har tydelige relationer, og man kan blive nødt til at gå fra den ene ende til den anden ende i queries. Vi synes sql eller neo4j giver mest mening. 
 
 For os virker det også som om at databaserne lidt er et særtilfælde i det at man nok sjældent ændrer i dem. Jo hurtigere man vil have det, jo mere redundancy kan man lave. Jo oftere man ændrer i sin database, jo besværligere er det at lave om på redundancy. Hvis man sjældent har tænkt sig at opdatere gutenberg-databasen, kan det måske betale sig at lave mere redundancy.
+
+Hele forløbet har være rigtigt stressende for os, da vi har skullet røre noget vi ikke har prøvet før og at vi ikke har haft særligt meget tid til at skulle lave det. Her snakker jeg specifikt om BDD, TDD og Neo4j. Det gjorde det heller ikke bedre at vi skulle lave opgaver oven i det her projekt første uge i projekt forløbet. Meget af tiden stod på at få den rigtige data ud til CSV'erne via parseren og derefter importere det i de tre databaser.
+Tiden brugt på alt det her opsætning gjorde at vi nærmest ingen tid fik til at lave vores frontend, vi prøvede med en tomcat server frontend med JSP'er. Dette fejlede af en eller anden mystisk årsag, da der ikke gad laves nogen forbindelse til selve serveren, så vi endte med ingen frontend.
