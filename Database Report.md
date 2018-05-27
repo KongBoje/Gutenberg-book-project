@@ -12,12 +12,13 @@ Til SQL handlede det om at få dataen struktureret på en meningsfuld måde uden
 
 
 
+<Billede>
 
 
 
 
 Neo4j struktur er lidt anderledes i forhold til andre database paradigmer, denne paradigm modellere databasen efter grafer.
-
+<Billede>
 
 Dette er den logisk model af vores Neo4j database, modellen er lavet meget efter hvordan MySQL databasen blev modelleret. Vi har tre entiteter og to relationer, entiteterne værende Author med id og name, Book med id og titel og til sidst City med id, name, longitude og latitude. De to relationer har navnene Written og Mentions, Written relationen er mellem Author og Book og Mentions relationen er mellem Book og City. Disse entiteter og relationer blev importeret ned til den fysiske model via csv filer i Cypher, som er det sprog neo4j bruger. Først blev entiteterne importeret ned derefter fik de deres unikke indexer og constraints, da dette ville gøre importen af relationerne hurtigt, som blev importeret til sidst.
 Efter alt var blevet importeret blev den fysiske model lavet.
@@ -26,12 +27,16 @@ Det krævede en masse tid og ressourcer at få dataen fra alle bøger lagt ned i
 
 MongoDB tilbyder både relationer og selvfølgelig de fordele, som medfører at være en Nosql database - bestående af dokumenter. En bedre og formentlig hurtigere struktur, ville være at samle dataen under en kollektion af bøger, med hver deres author(s) samt en liste af nævnte byer. Havde vi haft mere tid - ville vi have konverteret dataen fra databasen til en ny struktur der kunne have set sådan ud: 
 
+<Billede>
+  
 Denne struktur ville have et dokument per bog, med tilhørende author samt en liste af byer - der hver har et sæt af koordinater. Alle queries kunne tage udgangspunkt i denne ene kollektion, og gennem et enkelt kald til databasen, hente den ønskede information. Denne opstilling er desuden simpel og intuitiv, hvilket giver rig mulighed for skalering og videre udvikling.  
 How data is modeled in your application.
 Her beskrives entities - og måske snakker vi om, hvordan dataen kunne have kommet til udtryk gennem vores frontend. 
 Originalt havde vi planlagt, at vores queries blot skulle returnere den aktuelle information, var vi interesserede i by nævnt i en bog, så kunne det blot være en liste af bynavne i form af strings. Senere besluttede vi, at modellere dataen i form af entities. Her oprettede vi én for hver query. Den måde sikrede vi os, at der var outputtet var konsistent på tværs af de tre databaser. Eksempelvis havde vi den første query, hvor målet var at finde alle de forfattere plus bøger, hvor en given by bliver nævnt, hvilket resulterede i en entitet bestående af ét author navn og én bogtitel. Ligeledes fik hvert query altså en entitetsklasse udstyret med felter for den information vi var interesseret i. Set i bakspejlet ville det have været bedre med mere generelle entiteter, hvis applikationen skulle videreudvikles - og eventuelt indeholde flere forskellige CRUD operation, end blot read. Derved kunne vi altså tilgå vores databaser igennem queries, der henter forbindelse igennem “Connection” klasserne, hvor tilbage svarer kunne modelleres og sendes op til en frontend. 
 
 
+<Billede>
+  
 ## How the data is imported.
 
 [Her ses, hvordan dataen originalt blev importeret.](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/import.md)
@@ -39,20 +44,17 @@ Originalt havde vi planlagt, at vores queries blot skulle returnere den aktuelle
 
 
 
-
-
-
-
 ## Behavior of query test set
-Your recommendation, for which database engine to use in such a project for production.
 
 We decided to test each query for each database with the same datas
 
 Vi besluttede at teste hver databases query med det samme datasæt. Det betyder, at vi kørte hver query 5 gange, med forskelligt input. Der blev i mellemtiden taget tid på, hvor lang tid det tog for hver database at gennemfører hvert sæt af queries. Eksempelvis startede vi timeren, hvorefter querien blev kørt én gang per data i datasættet, hvorefter timeren stoppes. Vi gentog denne proces 4 gange indtil vi havde indsamlet 4 stks. resultater. Resultatet blev gemt som en liste, hvor første index omhandlede første query, andet index holdte resultatet for anden query test osv. Testen blev kørt 10 gange med minimal udsving af resultatet. 
 
-Mongo Test Results: [9.745, 9.352, 14.884, 9.352]
-MySQL Test Resultater: [7.186, 0.368, 0.372, 67.063]
-Neo4J Test Resultater: [1.514, 0.404, 0.941, Not Done]
+**Mongo Test Results: [9.745, 9.352, 14.884, 9.352]**
+
+**MySQL Test Resultater: [7.186, 0.368, 0.372, 67.063]**
+
+**Neo4J Test Resultater: [1.514, 0.404, 0.941, Not Done]**
 
 Resultatet blev konverteret fra millisekunder til sekunder. Det ses, at MySQL var betydelig hurtigere til at håndtere queries på tværs af forskellige tables sammenlignet med vores implementering af MongoDB - hvor det er havde været mere interessant at sammenligne med en single collection strategi. I hvert fald kom en af MongoDBs styrker til udtryk med geospatial data. Selv om arealet var nogenlunde det samme er der stadig en stor usikkerhed i sammenligningen her, da vores Geospatial finder alle byer indenfor en sphere, mens MySQLs implementering brugte et simpelt rektangulært areal. I hvert fald så det, at Mongo var væsentlig hurtigere end MySQL til den sidste query, når et geospatial index anvendes. 
 
