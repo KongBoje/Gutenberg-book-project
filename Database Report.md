@@ -36,7 +36,7 @@ Denne struktur ville have et dokument per bog, med tilhørende author samt en li
 Originalt havde vi planlagt, at vores queries blot skulle returnere den aktuelle information, var vi interesserede i by nævnt i en bog, så kunne det blot være en liste af bynavne i form af strings. Senere besluttede vi, at modellere dataen i form af entities. Her oprettede vi én for hver query. Den måde sikrede vi os, at der var outputtet var konsistent på tværs af de tre databaser. Eksempelvis havde vi den første query, hvor målet var at finde alle de forfattere plus bøger, hvor en given by bliver nævnt, hvilket resulterede i en entitet bestående af ét author navn og én bogtitel. Ligeledes fik hvert query altså en entitetsklasse udstyret med felter for den information vi var interesseret i. Set i bakspejlet ville det have været bedre med mere generelle entiteter, hvis applikationen skulle videreudvikles - og eventuelt indeholde flere forskellige CRUD operation, end blot read. Derved kunne vi altså tilgå vores databaser igennem queries, der henter forbindelse igennem “Connection” klasserne, hvor tilbage svarer kunne modelleres og sendes op til en frontend. 
 
 
-<Billede>
+![alt text](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/image4.png "Struktur")
   
 ### How the data is imported.
 
