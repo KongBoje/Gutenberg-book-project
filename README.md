@@ -18,24 +18,8 @@ Project for the test part can be seen [here](https://github.com/datsoftlyngby/so
 - https://github.com/datsoftlyngby/soft2018spring-databases-teaching-material/blob/master/lecture_notes/Neo4j%20Performance.pdf
 
 ---
+## Forudgående ting man skal have på sin maskine
 
-## Test strategy for TDD
+Redskaberne der blev brugt her var MySQL, NoSQL og Neo4J som vores databaser. Netbeans blev brugt som main redskab, da vi lavede det i java. Parsing blev brugt med Python2.
 
-### Test cases
-| Test case ID        | Test case objective              | Test case description               | Expected result          |
-| --------------------|:--------------------------------:|:-----------------------------------:| ------------------------:|
-| 1                   | Check connection to the database | Get books Title and Author          | Name on title and Author |
-
-## Test strategy for BDD/TDD
-
-### Test cases
-| Test case ID        | Test case objective           | Test case description                 | Expected result        |
-| --------------------|:-----------------------------:|:-------------------------------------:| ----------------------:|
-| 1                   | Test getMentioned()           | Get All mentioned Cities in a book    | citiesMentioned(int)   |
-| 2                   | Test getBooksByName()         | Get All books with similar name       | books.size() = 2       |
-| 3                   | Test plotCities()             | Get coordinates of cities from list   | expected.equals(actual)|
-| 4                   | Test getNearbyCities()        | Get All books within a specified range| expected.equals(actual)|
-| 5                   | Test getAllBooks()            | Get All books with similar name       | books.size() == total  |
-
-### UI Test
-TBD
+Så for at få vores projekt op at køre skal du først have dette.

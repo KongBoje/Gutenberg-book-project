@@ -18,4 +18,17 @@ public class AuthorBook {
         this.book = book;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getBook() {
+        return book;
+    }
+
+    @Override
+    public String toString() {
+        return author + " " + book;
+    }
+
 }

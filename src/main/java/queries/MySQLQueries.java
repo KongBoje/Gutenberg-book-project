@@ -20,10 +20,11 @@ public class MySQLQueries {
 
     private static Connection getConnection() {
         try {
+//            return DriverManager.getConnection("jdbc:mysql:/localhost:3306/gutenberg?user=root&password=root123&serverTimezone=UTC");
             //return DriverManager.getConnection("jdbc:mysql://localhost/guten?user=root&password=root&serverTimezone=UTC");
             return DriverManager.getConnection("jdbc:mysql://192.168.67.3/gutenberg?user=lasse&password=root&serverTimezone=UTC");
         } catch (SQLException ex) {
-            System.out.println("SHIT");
+            System.out.println("Exception");
             System.out.println(ex.getMessage());
             return null;
         }
@@ -32,9 +33,9 @@ public class MySQLQueries {
 
     public static ArrayList<AuthorBook> getMentioningBooksWithAuthors(String cityname) throws SQLException, ClassNotFoundException {
         ArrayList<AuthorBook> ret = new ArrayList<>();
-        Connection c = null;
-        Statement s = null;
-        ResultSet r = null;
+        Connection c;
+        Statement s;
+        ResultSet r;
 
         c = getConnection();
         s = c.createStatement();
