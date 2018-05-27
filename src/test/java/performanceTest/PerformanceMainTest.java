@@ -12,8 +12,9 @@ package performanceTest;
 public class PerformanceMainTest {
  
     public static void main(String[] args) {
-        System.out.println("Mongo Test Results: " + Mongo_performanceTest.MongoPerformance());
-        System.out.println("MySQL Test Results: " + MYSQL_performanceTest.MySqlPerformance());
+       // System.out.println("Mongo Test Results: " + Mongo_performanceTest.MongoPerformance());
+       // System.out.println("MySQL Test Results: " + MYSQL_performanceTest.MySqlPerformance());
+       System.out.println("Neo4J Test Results: " + MYSQL_performanceTest.MySqlPerformance());
     }
     
 }
