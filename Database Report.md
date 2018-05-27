@@ -33,9 +33,9 @@ Originalt havde vi planlagt, at vores queries blot skulle returnere den aktuelle
 
 
 ## How the data is imported.
-<Det Lasse skrev om i readme om import>
 
-https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/import.md -> Laves til hyperlink. 
+
+[https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/import.md](Her ses, hvordan dataen originalt blev importeret)
 
 
 
