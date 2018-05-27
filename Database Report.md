@@ -12,7 +12,7 @@ Til SQL handlede det om at få dataen struktureret på en meningsfuld måde uden
 
 
 
-<Billede>
+![alt text](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/image1.png "SQL")
 
 
 
