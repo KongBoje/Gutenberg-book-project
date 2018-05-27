@@ -137,10 +137,10 @@ CSV, som de andre databaser kunne læse.
 #### Diagram for import
 
 Dette er et diagram over hvordan databasestrukturen først blev udtænkt.
-![lortediagram.png](lortediagram.png)
+![lortediagram.png](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/lortediagram.png)
 
 Her er abc-tabellen taget med.
-![diagram2.png](diagram2.png)
+![diagram2.png](https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/diagram2.png)
 
 abc-tabellen er ikke nødvendig, og med et index på city_t.name er der ikke stor
 forskel på køretiden med eller uden.
