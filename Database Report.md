@@ -1,7 +1,7 @@
 
-#Database Report
+# Database Report
 
-##Which database engines are used.
+## Which database engines are used.
 
 Vi fik til opgave at teste 3 database engines op imod hinanden. Til det skulle vi selv parse en masse data bestående af delvis Bøger og deres authors fra Project Gutenberg, samt en lang række byer fra et datasæt (Geonames). Derved skulle vi opsætte databaserne således, at de kunne finde den information så vi var interesseret i, heriblandt information vedrørende relationerne mellem de forskellige entiteter; bøger, forfattere og nævnte byer. Eftersom vi skulle udvikle 3 systemer, gav det kun mening at bruge alle 3 typer fra undervisningen; en Dokument-, SQL- og Graph database. MongoDB var det oplagte valg mht. dokument baseret, da de andre valg var ukendte for os. For SQL lå valget mellem MySQL, PostgreSQL og MariaDB - her faldt valget på MySQL, primært fordi vi har mest erfaring med den, og eftersom vi valgte at udviklede applikationen i Java, så har vi førhen spenderet mest tid med MySQL. Graph database valget blev Neo4j, som vi stiftede bekendtskab med i løbet af uddannelsen. 
 How data is modeled in the database.
@@ -32,7 +32,7 @@ Her beskrives entities - og måske snakker vi om, hvordan dataen kunne have komm
 Originalt havde vi planlagt, at vores queries blot skulle returnere den aktuelle information, var vi interesserede i by nævnt i en bog, så kunne det blot være en liste af bynavne i form af strings. Senere besluttede vi, at modellere dataen i form af entities. Her oprettede vi én for hver query. Den måde sikrede vi os, at der var outputtet var konsistent på tværs af de tre databaser. Eksempelvis havde vi den første query, hvor målet var at finde alle de forfattere plus bøger, hvor en given by bliver nævnt, hvilket resulterede i en entitet bestående af ét author navn og én bogtitel. Ligeledes fik hvert query altså en entitetsklasse udstyret med felter for den information vi var interesseret i. Set i bakspejlet ville det have været bedre med mere generelle entiteter, hvis applikationen skulle videreudvikles - og eventuelt indeholde flere forskellige CRUD operation, end blot read. Derved kunne vi altså tilgå vores databaser igennem queries, der henter forbindelse igennem “Connection” klasserne, hvor tilbage svarer kunne modelleres og sendes op til en frontend. 
 
 
-##How the data is imported.
+## How the data is imported.
 <Det Lasse skrev om i readme om import>
 
 https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/import.md -> Laves til hyperlink. 
@@ -44,7 +44,7 @@ https://github.com/KongBoje/Gutenberg-book-project/blob/master/docs/import.md ->
 
 
 
-##Behavior of query test set
+## Behavior of query test set
 Your recommendation, for which database engine to use in such a project for production.
 
 We decided to test each query for each database with the same datas
@@ -60,12 +60,12 @@ Resultatet blev konverteret fra millisekunder til sekunder. Det ses, at MySQL va
 Der er en del afvigelser i forhold til bare at køre queries direkte på databaserne. Blandt andet skal outputtet af querien behandles I java, således at det får samme opbygning - ligegyldigt, hvilken databasen man vælger. Det faktum, at det eksekveres gennem Maven påvirker også resultatet. Alt i alt giver resultatet forholdsvis god mening, at MySQL håndtere relations baseret queries bedst, MongoDBs indbyggede index for geospatial features og Neo4js cypher graph query sprog til håndtering af connected data. Ud fra vores analyse af de implementeringer vi har arbejdet med, så giver det bedst mening at anvende MySQL både pga. hastighed, men også erfaringsmæssige fordel vi har med SQL baserede databaser. Det er muligt, at en bedre implementation af MongoDB kunne have givet god mening, specielt fordi den netop har disse features med geospatial data, hvor det sandsynligt ville være besværligt at skulle udarbejde et lignende system i SQL. Neo4J har også evnen til at bruge Geospatial data, men vi fik det desværre ikke til at virke hos os selvom vi prøvede med en masse queries der gerne skulle have fået det til at fungere.
 
 
-##Your recommendation, for which database engine to use in such a project for production.
+## Your recommendation, for which database engine to use in such a project for production.
 
 Så hvilken Database ville vi vælge, hvis det skulle i produktion? Svaret er, at det afhænger af, hvad det skal bruges til. Har man behov for relationer, er det muligvis SQL vi ude i - da denne meget etableret database form giver god mening, hvis man skal have en struktur, hvor der er afhængigheder frem og tilbage imellem tables. Vælger man en mere simpel struktur - hvor der eksempelvis kun tages højde for navn og telefonnummer, så give en dokumentbaseret database god mening, da den scaler nemt, i modsætning til den mere komplekse strukturer som man ofte ser i SQL. Graph databaser giver god mening i vores sammenhæng, da graph databaser håndterer many-to-many bedre end relationnelle databaser.  
 
 At opbygge lige netop denne applikation, så gav det god mening at udarbejde den ud fra relationer. Fra Author, til Book, til City - hvor der skabes forbindelse mellem dem i form af hjælpe tabeller (junction tables), så holdes der en forholdsvis simpel struktur. Samtidigt, kunne mongoDB give god mening, hvis man holder det til en enkelt kolletions struktur. MongoDB kan også anbefales, hvis applikationen udvides til at håndtere flere geografiske udregninger. Neo4J kan være en middelvej, da den både kan matche SQLs (hvis ikke slå) hastighed og samtidig provide mulighed for at udnytte geospatial data. Dog er der nogle udfordringer med manglende erfaring, mindre support/udvikling og dårligere scaling for en graph database.    
-##Konklusion
+## Konklusion
 Denne database har tydelige relationer, og man kan blive nødt til at gå fra den ene ende til den anden ende i queries. Vi synes sql eller neo4j giver mest mening. 
 
 For os virker det også som om at databaserne lidt er et særtilfælde i det at man nok sjældent ændrer i dem. Jo hurtigere man vil have det, jo mere redundancy kan man lave. Jo oftere man ændrer i sin database, jo besværligere er det at lave om på redundancy. Hvis man sjældent har tænkt sig at opdatere gutenberg-databasen, kan det måske betale sig at lave mere redundancy.
