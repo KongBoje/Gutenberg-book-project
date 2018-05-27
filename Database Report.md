@@ -134,7 +134,7 @@ JOINS var langsomme da der ikke var et index på city_t.name.
 For at importere til de andre databaser, blev der eksporteret fra SQL til en
 CSV, som de andre databaser kunne læse.
 
-### Diagram for import
+#### Diagram for import
 
 Dette er et diagram over hvordan databasestrukturen først blev udtænkt.
 ![lortediagram.png](lortediagram.png)
