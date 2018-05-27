@@ -17,7 +17,7 @@ import queries.QueryInterface;
  *
  * @author OpieOP
  */
-public class MYSQL_performanceTest  {
+public class MYSQL_performanceTest {
 
     private static final String[] citySet = {"Sar-e Pul", "Szczecin", "New York City", "London", "Copenhagen"};
     private static final String[] titleSet = {"Charlotte Brontë and Her Circle", "I Married a Ranger", "In the Track of the Bookworm", "Much Ado About Something", "Bimbi, Stories for Children"};
@@ -29,39 +29,38 @@ public class MYSQL_performanceTest  {
 
     public static void main(String[] args) {
 
-        ArrayList<Long> myResults = MySqlPerformance();
+        ArrayList<Double> myResults = MySqlPerformance();
     }
 
-    public static ArrayList<Long> MySqlPerformance() {
-        ArrayList<Long> results = new ArrayList();
+    public static ArrayList<Double> MySqlPerformance() {
+        ArrayList<Double> results = new ArrayList();
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             getMentioningBooksWithAuthorTest(citySet[i]);
         }
         end = System.currentTimeMillis();
-        results.add((end - start) / 1000L);
+        results.add((double) (end - start) / 1000.00);
 
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             mentionedCitiesTest(titleSet[i]);
         }
         end = System.currentTimeMillis();
-        results.add((end - start) / 1000L);
+        results.add((double) (end - start) / 1000.00);
 
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             getBooksAndCitiesTest(authorSet[i]);
         }
         end = System.currentTimeMillis();
-        results.add((end - start) / 1000L);
+        results.add((double) (end - start) / 1000.00);
 
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             getBooksMentioningRange(coordinateSet[i][0], coordinateSet[i][1], 1);
         }
         end = System.currentTimeMillis();
-        results.add((end - start) / 1000L);
-
+        results.add((double) (end - start) / 1000.00);
         return results;
     }
 

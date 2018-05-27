@@ -32,38 +32,38 @@ public class Mongo_performanceTest {
     }
     
     public static void main(String[] args) {
-        ArrayList<Long> myResults = MongoPerformance();
+        ArrayList<Double> myResults = MongoPerformance();
     }
     
-    public static ArrayList<Long> MongoPerformance(){
-        ArrayList<Long> results = new ArrayList();
+    public static ArrayList<Double> MongoPerformance(){
+        ArrayList<Double> results = new ArrayList();
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             getMentioningBooksWithAuthorTest(citySet[i]);
         }
         end = System.currentTimeMillis();
-        results.add((end-start)/1000L);
+        results.add((double)(end-start)/1000.00);
         
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             mentionedCitiesTest(titleSet[i]);
         }
         end = System.currentTimeMillis();
-        results.add((end-start)/1000L);
+        results.add((double)(end-start)/1000.00);
         
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             getBooksAndCitiesTest(authorSet[i]);
         }
         end = System.currentTimeMillis();
-        results.add((end-start)/1000L);
+        results.add((double)(end-start)/1000.00);
         
         start = System.currentTimeMillis();
         for (int i = 0; i < 5; i++) {
             getBooksMentioningRange(coordinateSet[i][0],coordinateSet[i][1], 15000);
         }
         end = System.currentTimeMillis();
-        results.add((end-start)/1000L);
+        results.add((double)(end-start)/1000.00);
         
         return results;
     }  
